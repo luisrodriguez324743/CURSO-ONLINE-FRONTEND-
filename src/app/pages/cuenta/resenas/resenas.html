@@ -14,7 +14,7 @@
       placeholder="ID de curso (opcional)"
       autocomplete="off"
     />
-    <button type="submit" [disabled]="cargando()">Buscar</button>
+    <button type="submit" class="secundario" [disabled]="cargando()">Buscar</button>
     <button type="button" class="secundario" (click)="limpiarFiltros()" [disabled]="cargando()">
       Todas
     </button>
@@ -27,34 +27,36 @@
   <p class="mensaje" [class.error]="esError()">{{ mensaje() }}</p>
 }
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Calificación</th>
-      <th>Comentario</th>
-      <th>ID usuario</th>
-      <th>ID curso</th>
-      <th>Creada</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (fila of filas(); track fila.id_resena) {
+<div class="tabla-contenedor">
+  <table>
+    <thead>
       <tr>
-        <td class="id">{{ fila.id_resena }}</td>
-        <td>{{ fila.calificacion }}/5</td>
-        <td>{{ fila.comentario || '—' }}</td>
-        <td class="id">{{ fila.id_usuario }}</td>
-        <td class="id">{{ fila.id_curso }}</td>
-        <td>{{ fila.fecha_creacion }}</td>
-        <td class="acciones">
-          <button type="button" (click)="abrirEditar(fila)">Editar</button>
-        </td>
+        <th>ID</th>
+        <th>Calificación</th>
+        <th>Comentario</th>
+        <th>ID usuario</th>
+        <th>ID curso</th>
+        <th>Creada</th>
+        <th></th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (fila of filas(); track fila.id_resena) {
+        <tr>
+          <td class="id">{{ fila.id_resena }}</td>
+          <td class="numerico">{{ fila.calificacion }}/5</td>
+          <td>{{ fila.comentario || '—' }}</td>
+          <td class="id">{{ fila.id_usuario }}</td>
+          <td class="id">{{ fila.id_curso }}</td>
+          <td class="fecha">{{ fila.fecha_creacion }}</td>
+          <td class="acciones">
+            <button type="button" class="terciario" (click)="abrirEditar(fila)">Editar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
 @if (popupAbierto()) {
   <div class="fondo-popup" (click)="cerrarPopup()">
@@ -77,6 +79,7 @@
           [(ngModel)]="formulario.calificacion"
           name="calificacion"
           type="number"
+          inputmode="numeric"
           min="1"
           max="5"
           step="1"
