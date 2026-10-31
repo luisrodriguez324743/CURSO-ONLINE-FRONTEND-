@@ -2,13 +2,8 @@
   <h2>Usuarios</h2>
 
   <form class="filtro" (submit)="$event.preventDefault(); buscarPorId()">
-    <input
-      [(ngModel)]="idFiltro"
-      name="idFiltro"
-      placeholder="Filtrar por ID"
-      autocomplete="off"
-    />
-    <button type="submit" [disabled]="cargando()">Buscar</button>
+    <input [(ngModel)]="idFiltro" name="idFiltro" placeholder="Filtrar por ID" autocomplete="off" />
+    <button type="submit" class="secundario" [disabled]="cargando()">Buscar</button>
     <button type="button" class="secundario" (click)="limpiarFiltro()" [disabled]="cargando()">
       Todos
     </button>
@@ -21,34 +16,36 @@
   <p class="mensaje" [class.error]="esError()">{{ mensaje() }}</p>
 }
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Usuario</th>
-      <th>Correo</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (fila of filas(); track fila.id_usuario) {
+<div class="tabla-contenedor">
+  <table>
+    <thead>
       <tr>
-        <td class="id">{{ fila.id_usuario }}</td>
-        <td>
-          {{ fila.primer_nombre }} {{ fila.segundo_nombre }}
-          {{ fila.primer_apellido }} {{ fila.segundo_apellido }}
-        </td>
-        <td>{{ fila.nombre_usuario }}</td>
-        <td>{{ fila.correo }}</td>
-        <td class="acciones">
-          <button type="button" (click)="abrirEditar(fila)">Editar</button>
-          <button type="button" class="peligro" (click)="eliminar(fila)">Eliminar</button>
-        </td>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Usuario</th>
+        <th>Correo</th>
+        <th></th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (fila of filas(); track fila.id_usuario) {
+        <tr>
+          <td class="id">{{ fila.id_usuario }}</td>
+          <td>
+            {{ fila.primer_nombre }} {{ fila.segundo_nombre }} {{ fila.primer_apellido }}
+            {{ fila.segundo_apellido }}
+          </td>
+          <td>{{ fila.nombre_usuario }}</td>
+          <td>{{ fila.correo }}</td>
+          <td class="acciones">
+            <button type="button" class="terciario" (click)="abrirEditar(fila)">Editar</button>
+            <button type="button" class="peligro" (click)="eliminar(fila)">Eliminar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
 @if (popupAbierto()) {
   <div class="fondo-popup" (click)="cerrarPopup()">
@@ -82,8 +79,18 @@
           name="correo"
           type="email"
           autocomplete="email"
+          #correo="ngModel"
+          [attr.aria-invalid]="correo.invalid && (correo.dirty || correo.touched)"
+          [attr.aria-describedby]="
+            correo.invalid && (correo.dirty || correo.touched) ? 'correo-error' : null
+          "
           required
         />
+        @if (correo.invalid && (correo.dirty || correo.touched)) {
+          <small id="correo-error" class="error-campo" role="alert">
+            Ingresa un correo electrónico válido.
+          </small>
+        }
       </label>
       <label class="campo">
         <span>{{ modo() === 'crear' ? 'Clave' : 'Clave (vacio = no cambiar)' }}</span>
