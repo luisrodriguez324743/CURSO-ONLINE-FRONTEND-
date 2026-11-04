@@ -2,13 +2,8 @@
   <h2>Roles</h2>
 
   <form class="filtro" (submit)="$event.preventDefault(); buscarPorId()">
-    <input
-      [(ngModel)]="idFiltro"
-      name="idFiltro"
-      placeholder="Filtrar por ID"
-      autocomplete="off"
-    />
-    <button type="submit" [disabled]="cargando()">Buscar</button>
+    <input [(ngModel)]="idFiltro" name="idFiltro" placeholder="Filtrar por ID" autocomplete="off" />
+    <button type="submit" class="secundario" [disabled]="cargando()">Buscar</button>
     <button type="button" class="secundario" (click)="limpiarFiltro()" [disabled]="cargando()">
       Todos
     </button>
@@ -21,24 +16,26 @@
   <p class="mensaje" [class.error]="esError()">{{ mensaje() }}</p>
 }
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre del rol</th>
-      <th>Descripción</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (fila of filas(); track fila.id_rol) {
+<div class="tabla-contenedor">
+  <table>
+    <thead>
       <tr>
-        <td class="id">{{ fila.id_rol }}</td>
-        <td>{{ fila.nombre_rol }}</td>
-        <td>{{ fila.descripcion || '—' }}</td>
+        <th>ID</th>
+        <th>Nombre del rol</th>
+        <th>Descripción</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (fila of filas(); track fila.id_rol) {
+        <tr>
+          <td class="id">{{ fila.id_rol }}</td>
+          <td>{{ fila.nombre_rol }}</td>
+          <td>{{ fila.descripcion || '—' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
 @if (popupAbierto()) {
   <div class="fondo-popup" (click)="cerrarPopup()">

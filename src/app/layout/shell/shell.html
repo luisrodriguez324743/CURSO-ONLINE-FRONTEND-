@@ -1,11 +1,58 @@
-<div class="layout">
-  <aside class="sidebar">
-    <h1>Cursos Online</h1>
-    <nav>
-      @for (item of menu; track item.ruta) {
-        <a [routerLink]="item.ruta" routerLinkActive="activo">{{ item.etiqueta }}</a>
+<div class="layout" [class.colapsado]="sidebarColapsado()">
+  <aside class="sidebar" aria-label="Barra lateral">
+    <div class="sidebar-cabecera">
+      <a class="marca" routerLink="/usuarios" aria-label="Curso Online, ir a usuarios">
+        <span class="marca-icono" aria-hidden="true">CO</span>
+        @if (!sidebarColapsado()) {
+          <span class="marca-texto">
+            <strong>Curso Online</strong>
+            <small>Panel de gestión</small>
+          </span>
+        }
+      </a>
+      <button
+        class="sidebar-toggle"
+        type="button"
+        [attr.aria-expanded]="!sidebarColapsado()"
+        [attr.aria-label]="sidebarColapsado() ? 'Expandir menú' : 'Contraer menú'"
+        [title]="sidebarColapsado() ? 'Expandir menú' : 'Contraer menú'"
+        (click)="alternarSidebar()"
+      >
+        <span class="toggle-icono" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="sidebar-contenido">
+      @if (!sidebarColapsado()) {
+        <p class="nav-titulo">Menú principal</p>
       }
-    </nav>
+      <nav aria-label="Navegación principal">
+        @for (item of menu; track item.ruta) {
+          <a
+            [routerLink]="item.ruta"
+            routerLinkActive="activo"
+            ariaCurrentWhenActive="page"
+            [attr.aria-label]="sidebarColapsado() ? item.etiqueta : null"
+            [title]="sidebarColapsado() ? item.etiqueta : ''"
+          >
+            <span class="nav-indicador" aria-hidden="true"></span>
+            @if (!sidebarColapsado()) {
+              <span>{{ item.etiqueta }}</span>
+            }
+          </a>
+        }
+      </nav>
+    </div>
+
+    <div class="sidebar-pie">
+      <span class="sidebar-pie-icono" aria-hidden="true">i</span>
+      @if (!sidebarColapsado()) {
+        <span>
+          <strong>Área administrativa</strong>
+          <small>Gestión del curso</small>
+        </span>
+      }
+    </div>
   </aside>
 
   <main class="contenido">
