@@ -34,4 +34,8 @@ export class ResenaService {
   actualizar(id: string, datos: ResenaUpdate): Observable<ApiUno<Resena>> {
     return this.http.put<ApiUno<Resena>>(`${this.base}/${id}`, datos);
   }
+
+  eliminar(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
 }

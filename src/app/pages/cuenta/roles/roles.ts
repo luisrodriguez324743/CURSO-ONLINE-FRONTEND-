@@ -2,8 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Rol, RolCreate } from '../../../models/rol.model';
+import { Rol, RolCreate, RolUpdate } from '../../../models/rol.model';
 import { RolService } from '../../../services/rol.service';
+
+type ModoPopup = 'crear' | 'editar';
 
 @Component({
   selector: 'app-roles',
@@ -19,9 +21,11 @@ export class Roles implements OnInit {
   readonly esError = signal(false);
   readonly cargando = signal(false);
   readonly popupAbierto = signal(false);
+  readonly modo = signal<ModoPopup>('crear');
 
   idFiltro = '';
   formulario: RolCreate = this.formularioVacio();
+  private idEditando = '';
 
   ngOnInit(): void {
     this.cargarTodos();
@@ -55,7 +59,19 @@ export class Roles implements OnInit {
   }
 
   abrirCrear(): void {
+    this.modo.set('crear');
+    this.idEditando = '';
     this.formulario = this.formularioVacio();
+    this.popupAbierto.set(true);
+  }
+
+  abrirEditar(fila: Rol): void {
+    this.modo.set('editar');
+    this.idEditando = fila.id_rol;
+    this.formulario = {
+      nombre_rol: fila.nombre_rol,
+      descripcion: fila.descripcion ?? '',
+    };
     this.popupAbierto.set(true);
   }
 
@@ -70,22 +86,45 @@ export class Roles implements OnInit {
     }
 
     this.cargando.set(true);
-    this.rolService
-      .crear({
-        nombre_rol: this.formulario.nombre_rol.trim(),
-        descripcion: this.formulario.descripcion.trim(),
-      })
-      .subscribe({
-        next: () => {
-          this.popupAbierto.set(false);
-          this.avisar('Rol creado');
-          this.refrescar();
-        },
-        error: (error: HttpErrorResponse) => {
-          this.avisar(this.textoError(error, false), true);
-          this.cargando.set(false);
-        },
-      });
+    const datos = {
+      nombre_rol: this.formulario.nombre_rol.trim(),
+      descripcion: this.formulario.descripcion.trim(),
+    };
+    const solicitud =
+      this.modo() === 'crear'
+        ? this.rolService.crear(datos)
+        : this.rolService.actualizar(this.idEditando, datos satisfies RolUpdate);
+    solicitud.subscribe({
+      next: () => this.despuesDeGuardar(this.modo() === 'crear' ? 'Rol creado' : 'Rol actualizado'),
+      error: (error: HttpErrorResponse) => {
+        this.avisar(this.textoError(error, false), true);
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  eliminar(fila: Rol): void {
+    if (!confirm(`Eliminar el rol "${fila.nombre_rol}"?`)) {
+      return;
+    }
+
+    this.cargando.set(true);
+    this.rolService.eliminar(fila.id_rol).subscribe({
+      next: () => {
+        this.avisar('Rol eliminado');
+        this.refrescar();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.avisar(this.textoError(error, false), true);
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  private despuesDeGuardar(texto: string): void {
+    this.popupAbierto.set(false);
+    this.avisar(texto);
+    this.refrescar();
   }
 
   private cargarTodos(): void {
@@ -131,7 +170,8 @@ export class Roles implements OnInit {
       return alListar ? 'No hay registros' : 'Rol no encontrado';
     }
     if (error.status === 409) {
-      return 'Ya existe un rol con ese nombre';
+      const detail = error.error?.detail;
+      return typeof detail === 'string' ? detail : 'Ya existe un rol con ese nombre o está asignado a usuarios';
     }
     if (error.status === 422) {
       return 'Revisa los datos. El filtro por ID tiene que ser un UUID.';

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.tabla-progresos {
+  min-width: 1180px;
+}
+
+.progreso-valor {
+  margin-bottom: 0.35rem;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.barra-progreso {
+  width: 140px;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.barra-progreso span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f97316, #fb923c);
+  transition: width 180ms ease;
+}

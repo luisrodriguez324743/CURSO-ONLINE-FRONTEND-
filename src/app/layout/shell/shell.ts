@@ -22,6 +22,9 @@ export class Shell {
     { ruta: '/cursos', etiqueta: 'Cursos' },
     { ruta: '/modulos', etiqueta: 'Módulos' },
     { ruta: '/lecciones', etiqueta: 'Lecciones' },
+    { ruta: '/inscripciones', etiqueta: 'Inscripciones' },
+    { ruta: '/progresos', etiqueta: 'Progreso' },
+    { ruta: '/evaluaciones', etiqueta: 'Evaluaciones' },
   ];
 
   alternarSidebar(): void {
