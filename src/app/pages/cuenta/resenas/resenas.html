@@ -50,7 +50,8 @@
           <td class="id">{{ fila.id_curso }}</td>
           <td class="fecha">{{ fila.fecha_creacion }}</td>
           <td class="acciones">
-            <button type="button" class="terciario" (click)="abrirEditar(fila)">Editar</button>
+            <button type="button" class="terciario" (click)="abrirEditar(fila)" [disabled]="cargando()">Editar</button>
+            <button type="button" class="peligro" (click)="eliminar(fila)" [disabled]="cargando()">Eliminar</button>
           </td>
         </tr>
       }
