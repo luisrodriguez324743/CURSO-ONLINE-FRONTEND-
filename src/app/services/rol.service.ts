@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../enviaroments/enviaroment';
 import { ApiLista, ApiUno } from '../models/api-respuesta.model';
-import { Rol, RolCreate } from '../models/rol.model';
+import { Rol, RolCreate, RolUpdate } from '../models/rol.model';
 
 @Injectable({ providedIn: 'root' })
 export class RolService {
@@ -21,5 +21,13 @@ export class RolService {
 
   crear(datos: RolCreate): Observable<ApiUno<Rol>> {
     return this.http.post<ApiUno<Rol>>(`${this.base}/`, datos);
+  }
+
+  actualizar(id: string, datos: RolUpdate): Observable<ApiUno<Rol>> {
+    return this.http.put<ApiUno<Rol>>(`${this.base}/${id}`, datos);
+  }
+
+  eliminar(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${id}`);
   }
 }

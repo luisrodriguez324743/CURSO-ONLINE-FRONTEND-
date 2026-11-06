@@ -116,6 +116,24 @@ export class Resenas implements OnInit {
     });
   }
 
+  eliminar(fila: Resena): void {
+    if (!confirm('Eliminar esta reseña?')) {
+      return;
+    }
+
+    this.cargando.set(true);
+    this.resenaService.eliminar(fila.id_resena).subscribe({
+      next: () => {
+        this.avisar('Reseña eliminada');
+        this.refrescar();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.avisar(this.textoError(error, false), true);
+        this.cargando.set(false);
+      },
+    });
+  }
+
   private cargarTodos(): void {
     this.cargando.set(true);
     this.resenaService.listar().subscribe({

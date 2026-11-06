@@ -23,6 +23,7 @@
         <th>ID</th>
         <th>Nombre del rol</th>
         <th>Descripción</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,10 @@
           <td class="id">{{ fila.id_rol }}</td>
           <td>{{ fila.nombre_rol }}</td>
           <td>{{ fila.descripcion || '—' }}</td>
+          <td class="acciones">
+            <button type="button" class="terciario" (click)="abrirEditar(fila)" [disabled]="cargando()">Editar</button>
+            <button type="button" class="peligro" (click)="eliminar(fila)" [disabled]="cargando()">Eliminar</button>
+          </td>
         </tr>
       }
     </tbody>
@@ -40,7 +45,7 @@
 @if (popupAbierto()) {
   <div class="fondo-popup" (click)="cerrarPopup()">
     <form class="popup" (click)="$event.stopPropagation()" (ngSubmit)="guardar()">
-      <h3>Crear rol</h3>
+      <h3>{{ modo() === 'crear' ? 'Crear rol' : 'Editar rol' }}</h3>
 
       <label class="campo">
         <span>Nombre del rol</span>
@@ -57,7 +62,7 @@
       </label>
 
       <div class="popup-acciones">
-        <button type="button" class="secundario" (click)="cerrarPopup()">Cancelar</button>
+        <button type="button" class="secundario" (click)="cerrarPopup()" [disabled]="cargando()">Cancelar</button>
         <button type="submit" [disabled]="cargando()">Guardar</button>
       </div>
     </form>
