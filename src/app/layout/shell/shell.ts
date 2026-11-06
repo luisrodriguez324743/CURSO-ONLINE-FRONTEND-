@@ -14,6 +14,9 @@ export class Shell {
     { ruta: '/usuarios', etiqueta: 'Usuarios' },
     { ruta: '/roles', etiqueta: 'Roles' },
     { ruta: '/resenas', etiqueta: 'Reseñas' },
+    { ruta: '/pagos', etiqueta: 'Pagos' },
+    { ruta: '/facturas', etiqueta: 'Facturas' },
+    { ruta: '/certificados', etiqueta: 'Certificados' },
   ];
 
   alternarSidebar(): void {

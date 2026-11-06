@@ -1,0 +1,73 @@
+:host { display: block; }
+
+.tabla-contenedor table { font-size: 0.95rem; text-transform: uppercase; }
+
+td.acciones { min-width: 280px; }
+
+.acciones .terciario,
+.acciones .peligro {
+	width: 86px;
+	height: 40px;
+	min-height: 40px;
+	padding: 0.4rem 0.6rem;
+	font-size: 0.9rem;
+}
+
+.campo select {
+	width: 100%;
+	min-height: 44px;
+	padding: 0.65rem 0.8rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	outline: none;
+	background: #fff;
+	color: #0f172a;
+	font: inherit;
+}
+
+.campo select:focus {
+	border-color: #1e3a8a;
+	box-shadow: 0 0 0 3px rgb(30 58 138 / 12%);
+}
+
+.popup-dato {
+	display: grid;
+	gap: 0.25rem;
+	color: #334155;
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.popup-dato strong {
+	min-height: 44px;
+	padding: 0.65rem 0.8rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	background: #f8fafc;
+	color: #0f172a;
+	font-weight: 500;
+}
+
+th .ordenable {
+	width: 140px;
+	height: 54px;
+	min-height: 54px;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #1e3a8a;
+	border-radius: 8px;
+	background: #1e3a8a;
+	color: #fff;
+	font: inherit;
+	font-weight: 700;
+	font-size: 0.9rem;
+	cursor: pointer;
+	text-align: center;
+	line-height: 1.2;
+	text-transform: uppercase;
+}
+
+th .ordenable:hover:not(:disabled) {
+	border-color: #172f70;
+	background: #172f70;
+	color: #fff;
+}
