@@ -11,6 +11,9 @@ import { Certificados } from './pages/cuenta/certificados/certificados';
 import { Cursos } from './pages/cuenta/cursos/cursos';
 import { Modulos } from './pages/cuenta/modulos/modulos';
 import { Lecciones } from './pages/cuenta/lecciones/lecciones';
+import { Inscripciones } from './pages/cuenta/inscripciones/inscripciones';
+import { Progresos } from './pages/cuenta/progresos/progresos';
+import { Evaluaciones } from './pages/cuenta/evaluaciones/evaluaciones';
 
 export const routes: Routes = [
   {
@@ -30,7 +33,9 @@ export const routes: Routes = [
       { path: 'cursos', component: Cursos },
       { path: 'modulos', component: Modulos },
       { path: 'lecciones', component: Lecciones },
-
+      { path: 'inscripciones', component: Inscripciones },
+      { path: 'progresos', component: Progresos },
+      { path: 'evaluaciones', component: Evaluaciones },
       { path: '**', redirectTo: 'usuarios' },
     ],
   },

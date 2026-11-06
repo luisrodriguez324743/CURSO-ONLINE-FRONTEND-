@@ -8,3 +8,8 @@ export interface RolCreate {
   nombre_rol: string;
   descripcion: string;
 }
+
+export interface RolUpdate {
+  nombre_rol: string;
+  descripcion: string;
+}
