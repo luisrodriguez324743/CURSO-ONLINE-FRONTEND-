@@ -1,17 +1,6 @@
 :host { display: block; }
 
-.tabla-contenedor table { font-size: 0.95rem; text-transform: uppercase; }
-
 td.acciones { min-width: 280px; }
-
-.acciones .terciario,
-.acciones .peligro {
-	width: 86px;
-	height: 40px;
-	min-height: 40px;
-	padding: 0.4rem 0.6rem;
-	font-size: 0.9rem;
-}
 
 .campo select {
 	width: 100%;
@@ -31,25 +20,18 @@ td.acciones { min-width: 280px; }
 }
 
 th .ordenable {
-	width: 140px;
-	height: 54px;
-	min-height: 54px;
-	padding: 0.5rem 0.75rem;
-	border: 1px solid #1e3a8a;
-	border-radius: 8px;
-	background: #1e3a8a;
-	color: #fff;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
 	font: inherit;
-	font-weight: 700;
-	font-size: 0.9rem;
 	cursor: pointer;
-	text-align: center;
-	line-height: 1.2;
-	text-transform: uppercase;
+	text-align: left;
 }
 
 th .ordenable:hover:not(:disabled) {
-	border-color: #172f70;
-	background: #172f70;
-	color: #fff;
+	border-color: transparent;
+	background: transparent;
+	color: #1e3a8a;
 }
