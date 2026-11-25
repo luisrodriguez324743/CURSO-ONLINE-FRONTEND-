@@ -35,9 +35,9 @@ jobs:
       - name: Leer el id del proyecto Firebase
         id: firebase_project
         run: |
-          ID=$(node -e "process.stdout.write(require('./.firebaserc').projects.default)")
-          if [ "$ID" = "cursos-online-a2544" ] || [ -z "$ID" ]; then
-            echo "Cambia TU_PROJECT_ID en .firebaserc por el id real del proyecto Firebase."
+          ID=$(node -e "process.stdout.write(JSON.parse(require('node:fs').readFileSync('.firebaserc', 'utf8')).projects.default || '')")
+          if [ -z "$ID" ]; then
+            echo "No se encontró projects.default en .firebaserc."
             exit 1
           fi
           echo "id=$ID" >> "$GITHUB_OUTPUT"
